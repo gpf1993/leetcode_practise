@@ -1,45 +1,47 @@
 <?php
 class Solution4 {
 
-    public function longestCommonPrefix1 ($str = []) {
+    //最长公共前缀
+    public function longestCommonPrefix ($str = []) {
+        $flagIndex = 0;
+        $target = "";
         if (count($str) == 1) {
-            return "";
+            return $str[0];
         } elseif (count($str) >= 2) {
-            $target  = $str[0];
+            $target = $str[0];
             for ($i = 1; $i < count($str); $i++) {
                 for ($index = 0; $index < strlen($target); $index++) {
-                    $flag   = substr($target, $index, strlen($target));
-                    if(strpos($str[$i], $flag) !== false){
+                    $flag   = substr($target, 0, strlen($target) - $index);
+                    if (strlen($flag) == 1) {
+                        if (strpos($str[$i], $flag) === 0)  {
+                            $target = $flag;
+                            $flagIndex += 1;
+                            break;
+                        } else {
+                            return "";
+                        }
+                    }
+                    if(strpos($str[$i], $flag) === 0) {
                         $target = $flag;
+                        $flagIndex += 1;
                         break;
-                    } elseif ($index == strlen($target) - 1 && strpos($str[$i], $flag) === false) {
+                    }
+                    if ($index == strlen($target) - 1 && strpos($str[$i], $flag) === false) {
                         return "";
                     }
                 }
             }
         }
-        return "";
-    }
-
-    public function longestCommonPrefix ($str = []) {
-        $flag    = "";
-        $target  = "flower";
-        for ($index = 0; $index < strlen($target); $index++) {
-            $flag   = substr($target, $index, strlen($target));
-            var_dump($flag);
-            if(strpos("flow", $flag) !== false){
-                $target = $flag;
-                break;
-            }
+        if ($flagIndex == count($str) - 1){
+            return $target;
         }
         return "";
     }
 
+    //最长公共子串
     function longStr ($str1, $str2) {
-        $max_len = 0;
         $c_arr   = [];
         $result = [];
-        $pos    = 0;
         $str1_arr = str_split($str1);
         $str2_arr = str_split($str2);
         for ($i = 0; $i < count($str1_arr); $i ++) {
@@ -54,20 +56,11 @@ class Solution4 {
             }
             $result[] = $temp_arr;
         }
-        var_dump($c_arr);
-//        foreach ($result as $row) {
-//            for ($j = 0; $j < count($row); $j ++) {
-//                if ($j == count($row) - 1) {
-//                    echo "  ".$row[$j]." \n";
-//                } else {
-//                    echo "  ".$row[$j];
-//                }
-//            }
-//        }
+
     }
 }
 
 $model = new Solution4();
-//$data  = $model->longestCommonPrefix(["flower","flow","flight"]);
-//var_dump($data);
-$model->longStr("acbcbcef", "abcbced");
+$data  = $model->longestCommonPrefix(["abca","aba","aaab"]);
+var_dump($data);
+//$model->longStr("acbcbcef", "abcbced");
