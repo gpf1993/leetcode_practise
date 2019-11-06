@@ -8,60 +8,53 @@ class ListNode {
         $this->val  = $val;
         $this->next = $next;
     }
+
+    public function initList () {
+        $root = null;
+        $tail = null;
+        for ($i = 1; $i < 10; $i++) {
+            $current = null;
+            if (empty($root)) {
+                $root = new ListNode($i, null);
+                $tail = $root;
+            } else {
+                $tempNode = new ListNode($i, null);
+                $tail->next = $tempNode;
+                $tail = $tempNode;
+            }
+        }
+        return $root;
+    }
 }
 
 class Solution7 {
 
     function mergeTwoLists($l1, $l2) {
-        $newHead = null;
-        $newTail = null;
-        if (empty($l1) || empty($l2)) {
-            return $l1 ?? $l2;
-        }
-        while ($l1 != null || $l2 != null) {
-           $tempNode1 = new ListNode($l1->val, null);
-           $tempNode2 = new ListNode($l2->val, null);
-           if ($tempNode1->val <= $tempNode2->val) {
-               $temp = $tempNode1;
-               $temp->next = $tempNode2;
-           } else {
-               $temp = $tempNode2;
-               $tempNode2->next = $tempNode1;
-           }
-           if (empty($newHead)) {
-               $newHead = $temp;
-           } else {
-               if ($newTail->val <= $temp->val) {
-                   $newHead->next = $temp;
-               } else {
-                   $newTail->next = $temp;
-               }
-           }
-           $newTail =  $temp->next;
-           if ($l2->next != null && $l1->next == null) {
-               $newTail->next = $l2->next;
-               break;
-           }
-           if ($l1->next != null && $l2->next == null) {
-               $newTail->next = $l1->next;
-               break;
-           }
-           $l1 = $l1->next;
-           $l2 = $l2->next;
-        }
-        return $newHead;
+       if ($l1 == null) {
+           return $l2;
+       }
+       if ($l2 == null) {
+           return $l1;
+       }
+       if ($l1->val < $l2->val) {
+           $l1->next = $this->mergeTwoLists($l1->next, $l2);
+           return $l1;
+       } else {
+           $l2->next = $this->mergeTwoLists($l1, $l2->next);
+           return $l2;
+       }
     }
 }
 // 1->2->4
-$node1 = new ListNode(5, null);
-//$node2 = new ListNode(2, null);
-//$node3 = new ListNode(4, null);
-//$node1->next = $node2;
-//$node2->next = $node3;
+$node1 = new ListNode(2, null);
+$node2 = new ListNode(6, null);
+$node3 = new ListNode(8, null);
+$node1->next = $node2;
+$node2->next = $node3;
 
 
 // 1->3->4
-$node11 = new ListNode(0, null);
+$node11 = new ListNode(1, null);
 $node12 = new ListNode(3, null);
 $node13 = new ListNode(4, null);
 $node11->next = $node12;
@@ -71,5 +64,5 @@ $L_1 = $node1;
 $L_2 = $node11;
 
 $model = new Solution7();
-$data = $model->mergeTwoLists(null, $L_2);
+$data = $model->mergeTwoLists($L_1, $L_2);
 echo print_r($data, true);
