@@ -29,6 +29,7 @@ class ListNode {
 
 class Solution7 {
 
+    //递归
     function mergeTwoLists($l1, $l2) {
        if ($l1 == null) {
            return $l2;
@@ -43,6 +44,42 @@ class Solution7 {
            $l2->next = $this->mergeTwoLists($l1, $l2->next);
            return $l2;
        }
+    }
+
+    //循环
+    function mergeTwoLists2 ($l1, $l2) {
+        if ($l1 == null) {
+            return $l2;
+        }
+        if ($l2 == null) {
+            return $l1;
+        }
+        $head = new ListNode(0, null);
+        $tail = null;
+        while ($l1 != null && $l2 != null) {
+            if ($l1->val < $l2->val) {
+                $tmpVal = $l1->val;
+                $l1 = $l1->next;
+            } else {
+                $tmpVal = $l2->val;
+                $l2 = $l2->next;
+            }
+            if ($head->next == null) {
+                $head->next = new ListNode($tmpVal, null);
+                $tail       = $head->next;
+            } else {
+                $tempNode = new ListNode($tmpVal, null);
+                $tail->next = $tempNode;
+                $tail = $tempNode;
+            }
+        }
+        if ($l1 != null) {
+            $tail->next = $l1;
+        }
+        if ($l2 != null) {
+            $tail->next = $l2;
+        }
+        return $head->next;
     }
 }
 // 1->2->4
@@ -64,5 +101,6 @@ $L_1 = $node1;
 $L_2 = $node11;
 
 $model = new Solution7();
-$data = $model->mergeTwoLists($L_1, $L_2);
+//$data = $model->mergeTwoLists($L_1, $L_2);
+$data = $model->mergeTwoLists2($L_1, $L_2);
 echo print_r($data, true);
