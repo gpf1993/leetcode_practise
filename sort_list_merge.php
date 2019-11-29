@@ -9,10 +9,10 @@ class ListNode {
         $this->next = $next;
     }
 
-    public function initList () {
+    public static function initList () {
         $root = null;
         $tail = null;
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 1; $i < 5; $i++) {
             $current = null;
             if (empty($root)) {
                 $root = new ListNode($i, null);
