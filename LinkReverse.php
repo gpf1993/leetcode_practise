@@ -4,9 +4,11 @@ include 'sort_list_merge.php';
 $node1 = new ListNode(2, null);
 $node2 = new ListNode(6, null);
 $node3 = new ListNode(8, null);
+$node4 = new ListNode(10, null);
 
 $node1->next = $node2;
 $node2->next = $node3;
+$node3->next = $node4;
 
 echo print_r($node1, true);
 
